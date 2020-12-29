@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Server} from '../Models/server.model';
+import {ServerService} from '../server.service';
 
 @Component({
   selector: 'app-server-list',
@@ -8,16 +9,16 @@ import {Server} from '../Models/server.model';
 })
 export class ServerListComponent implements OnInit {
 
-  servers: Server[] = [
-    {name: 'Prod Server', status: 'online', instanceType: 'large', date: new Date(29, 12, 2020)},
-    {name: 'Dev Server', status: 'online', instanceType: 'medium', date: new Date(29, 12, 2020)},
-    {name: 'Database Server', status: 'offline', instanceType: 'small', date: new Date(29, 12, 2020)},
-  ];
+  servers: Server[];
 
-  constructor() {
+  constructor(private srvService: ServerService) {
   }
 
   ngOnInit(): void {
+    this.servers = this.srvService.getServers();
+    this.srvService.serversSubject.subscribe(data => {
+      this.servers = data;
+    });
   }
 
   getServeStatus(server: Server): string {

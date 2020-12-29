@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ServerService} from '../server.service';
+import {Server} from '../Models/server.model';
 
 @Component({
   selector: 'app-server-toolbar',
@@ -12,7 +14,7 @@ export class ServerToolbarComponent implements OnInit {
 
   serverForm: FormGroup;
 
-  constructor() {
+  constructor(private srvService: ServerService) {
   }
 
   ngOnInit(): void {
@@ -29,5 +31,11 @@ export class ServerToolbarComponent implements OnInit {
 
   onServerAdded() {
     console.log(this.serverForm);
+    const srv = new Server();
+    srv.name = this.serverForm.value.name;
+    srv.status = this.serverForm.value.status;
+    srv.instanceType = this.serverForm.value.instanceType;
+    srv.date = new Date(this.serverForm.value.day, this.serverForm.value.month, this.serverForm.value.year);
+    this.srvService.addServer(srv);
   }
 }
