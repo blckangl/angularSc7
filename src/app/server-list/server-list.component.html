@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-12">
+    <ul class="list-group">
+      <li *ngFor="let server of servers" class="list-group-item" [ngClass]="getServeStatus(server)">
+        <span class="badge">
+         {{server.status}}
+        </span>
+        <strong>{{server.name}}</strong>
+        {{server.instanceType}}
+        {{server.date}}
+      </li>
+    </ul>
+  </div>
+</div>
